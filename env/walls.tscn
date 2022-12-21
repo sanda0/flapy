@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://env/wall.tscn" type="PackedScene" id=1]
+[ext_resource path="res://env/walls.gd" type="Script" id=2]
+[ext_resource path="res://audio/score.mp3" type="AudioStream" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 15.5, 695.5 )
+
+[node name="walls" type="Node2D" groups=["walls"]]
+position = Vector2( 0, 400 )
+script = ExtResource( 2 )
+
+[node name="wall" parent="." instance=ExtResource( 1 )]
+position = Vector2( 0, 75 )
+
+[node name="wall2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 0, -75 )
+rotation = 3.14159
+
+[node name="scoreAria" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="scoreAria"]
+position = Vector2( -0.5, -4.5 )
+shape = SubResource( 1 )
+
+[node name="scoreSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+
+[connection signal="body_entered" from="wall" to="." method="_on_wall_body_entered"]
+[connection signal="body_entered" from="wall2" to="." method="_on_wall2_body_entered"]
+[connection signal="body_exited" from="scoreAria" to="." method="_on_scoreAria_body_exited"]
